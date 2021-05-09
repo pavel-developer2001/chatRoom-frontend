@@ -1,15 +1,42 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import ChatRoomApi from "../apis/ChatRoomApi";
+import { addNewRoom } from "../store/roomSlice";
 
 const AddRoom = () => {
-	const [picture, setPicture] = React.useState<any>(null);
+	const [roomPicture, setRoomPicture] = React.useState<any>(null);
 	const handleChange = (e: any) => {
 		const imageUrl = URL.createObjectURL(e.target.files[0]);
-		setPicture(imageUrl);
+		setRoomPicture(imageUrl);
 	};
 	const func = () => {
 		const formData = new FormData();
-		formData.append("image", picture);
+		formData.append("image", roomPicture);
+	};
+
+	const [roomName, setRoomName] = React.useState("");
+	const [roomText, setRoomText] = React.useState("");
+
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const addRoom = async (e: any) => {
+		e.preventDefault();
+		if (roomName === "") {
+			return alert("Напишите название комнаты");
+		}
+		const responce = await ChatRoomApi.post("/rooms/create", {
+			roomName,
+			roomText,
+			roomPicture,
+		});
+		dispatch(addNewRoom(responce.data.data));
+		history.push(`/`);
+		// console.log(responce.data.data);
+		setRoomName("");
+		setRoomText("");
+		setRoomPicture(null);
 	};
 	return (
 		<div className='add-room'>
@@ -17,15 +44,26 @@ const AddRoom = () => {
 			<Form>
 				<Form.Group controlId='formBasicEmail'>
 					<Form.Label>Название комнаты</Form.Label>
-					<Form.Control type='name' placeholder='Введите название комнаты' />
+					<Form.Control
+						type='name'
+						placeholder='Введите название комнаты'
+						value={roomName}
+						onChange={(e) => setRoomName(e.target.value)}
+					/>
 				</Form.Group>
 				<Form.Group controlId='exampleForm.ControlTextarea1'>
 					<Form.Label>Описание комнаты</Form.Label>
-					<Form.Control as='textarea' className='add-room__textarea' rows={3} />
+					<Form.Control
+						as='textarea'
+						className='add-room__textarea'
+						rows={3}
+						value={roomText}
+						onChange={(e) => setRoomText(e.target.value)}
+					/>
 				</Form.Group>
 				<Form.Group className='add-room__file'>
-					{picture ? (
-						<img src={picture} className='add-room__img' />
+					{roomPicture ? (
+						<img src={roomPicture} className='add-room__img' />
 					) : (
 						<>
 							<Form.Label>Выбрать фоновую картинку комнаты</Form.Label>
@@ -41,7 +79,7 @@ const AddRoom = () => {
 						</>
 					)}
 				</Form.Group>
-				<Button variant='primary' type='submit'>
+				<Button variant='primary' type='submit' onClick={addRoom}>
 					Создать
 				</Button>
 			</Form>

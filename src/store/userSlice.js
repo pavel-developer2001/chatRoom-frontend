@@ -22,7 +22,7 @@ const userSlice = createSlice({
 			state.loading = true;
 		},
 		[getUsers.fulfilled]: (state, action) => {
-			state.memes = action.payload;
+			state.users = action.payload;
 			state.status = "success";
 			state.loading = false;
 		},
