@@ -12,11 +12,11 @@ const Room = () => {
 					<Row>
 						<Col lg={4}>
 							Участники
-							<UserInfo />
-							<UserInfo />
-							<UserInfo />
-							<UserInfo />
-							<UserInfo />
+							<UserInfo name='dark side' />
+							<UserInfo name='dark side' />
+							<UserInfo name='dark side' />
+							<UserInfo name='dark side' />
+							<UserInfo name='dark side' />
 						</Col>
 						<Col lg={8}>Message</Col>
 					</Row>

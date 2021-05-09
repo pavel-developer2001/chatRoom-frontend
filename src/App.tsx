@@ -28,12 +28,14 @@ const App = () => {
 			<Router>
 				<Header />
 				{token ? (
-					<Switch>
-						<Route exact path='/' component={Home} />
-						<Route exact path='/room' component={Room} />
-						<Route exact path='/add' component={AddRoom} />
-						<Redirect to='/' />
-					</Switch>
+					<>
+						<Switch>
+							<Route exact path='/' component={Home} />
+							<Route exact path='/room' component={Room} />
+							<Route exact path='/add' component={AddRoom} />
+							<Redirect to='/' />
+						</Switch>
+					</>
 				) : (
 					<Switch>
 						<Route exact path='/register' component={Register} />

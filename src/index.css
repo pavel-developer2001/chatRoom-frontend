@@ -42,3 +42,21 @@
 .user-info {
 	margin-top: 10px;
 }
+.home__info {
+	margin: 13px auto;
+	width: max-content;
+}
+.add-room {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 30px;
+}
+.add-room__textarea {
+	resize: none;
+}
+.add-room__file {
+	margin: 15px 0;
+}
+.add-room__img {
+	width: 55%;
+}

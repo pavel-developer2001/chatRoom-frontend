@@ -12,6 +12,9 @@ const Login = () => {
 	const [password, setPassword] = React.useState("");
 	const loginUser = async (e: any) => {
 		e.preventDefault();
+		if (email === "" || password === "") {
+			return alert("Не введены все данные");
+		}
 		const responce = await ChatRoomApi.post("/users/login", {
 			email,
 			password,

@@ -2,11 +2,14 @@ import React from "react";
 
 import personAvatar from "../static/person.jpg";
 
-const UserInfo = () => {
+type UserInfoProps = {
+	name: string;
+};
+const UserInfo: React.FC<UserInfoProps> = ({ name }) => {
 	return (
 		<div className='user-info'>
 			<img className='room-avatar' src={personAvatar} />
-			<strong className='room-username'>King death</strong>
+			<strong className='room-username'>{name}</strong>
 		</div>
 	);
 };

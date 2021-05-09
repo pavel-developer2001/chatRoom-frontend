@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, Slice } from "@reduxjs/toolkit";
 
-export const getUsers = createAsyncThunk("toolkit/getUsers", async () => {
-	return fetch("https://api.imgflip.com/get_memes").then((res) => res.json());
+export const getUsers = createAsyncThunk("user/getUsers", async () => {
+	return fetch("http://localhost:5000/api/users").then((res) => res.json());
 });
 const userSlice = createSlice({
 	name: "user",
