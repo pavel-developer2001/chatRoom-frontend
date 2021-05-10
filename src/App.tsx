@@ -36,7 +36,13 @@ const App = () => {
 					<>
 						<Switch>
 							<Route exact path='/' component={Home} />
-							<Route exact path='/room' component={Room} />
+							<Route
+								path='/room/:id'
+								render={({ match }) => {
+									const { id } = match.params;
+									return <Room roomId={id} />;
+								}}
+							/>
 							<Route exact path='/add' component={AddRoom} />
 							<Redirect to='/' />
 						</Switch>
