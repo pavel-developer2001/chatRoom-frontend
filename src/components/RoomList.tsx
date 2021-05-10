@@ -2,10 +2,30 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import { Button, Col, Container, Row } from "react-bootstrap";
 // import imgFont from "../static/image.png";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import ChatRoomApi from "../apis/ChatRoomApi";
+import {
+	connectParticipant,
+	getRoomParticipants,
+} from "../store/participantSlice";
 
 const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
+	const user: any = localStorage.getItem("user");
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const addParticipant = async (e: any) => {
+		e.preventDefault();
+		const responce = await ChatRoomApi.post("/participants/connect", {
+			participantName: JSON.parse(user).user,
+			roomId: id,
+			userId: JSON.parse(user).id,
+		});
+		//@ts-ignore
+		dispatch(getRoomParticipants(id));
+		dispatch(connectParticipant(responce.data.data));
+		history.push(`/room/${id}`);
+	};
 	return (
 		<div className='room-list-item'>
 			<Card style={{ width: "18rem" }}>
@@ -14,7 +34,9 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 					<Card.Title>{name}</Card.Title>
 					<Card.Text>{text}</Card.Text>
 					<Link to={`/room/${id}`}>
-						<Button variant='primary'>Присоединиться</Button>
+						<Button variant='primary' onClick={addParticipant}>
+							Присоединиться
+						</Button>
 					</Link>
 				</Card.Body>
 			</Card>

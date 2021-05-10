@@ -1,9 +1,14 @@
 import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import ChatRoomApi from "../apis/ChatRoomApi";
 import UserInfo from "../components/UserInfo";
 import { addMessageItem, getRoomMessages } from "../store/messageSlice";
+import {
+	disconnectParticipant,
+	getRoomParticipants,
+} from "../store/participantSlice";
 
 const Room: React.FC<any> = ({ roomId }) => {
 	const dispatch = useDispatch();
@@ -11,11 +16,23 @@ const Room: React.FC<any> = ({ roomId }) => {
 		//@ts-ignore
 		dispatch(getRoomMessages(roomId));
 	}, []);
+
+	React.useEffect(() => {
+		//@ts-ignore
+		dispatch(getRoomParticipants(roomId));
+	}, []);
+
+	const { participants } = useSelector(
+		//@ts-ignore
+		(state) => state.participant.participants
+	);
+	//@ts-ignore
+	const loadingParticipant = useSelector((state) => state.participant.loading);
+
 	//@ts-ignore
 	const { data } = useSelector((state) => state.message.messages);
 	//@ts-ignore
 	const { loading } = useSelector((state) => state.message);
-	const responce = ChatRoomApi.get(`/users/room?roomId=${roomId}`);
 
 	const [messageText, setMessageText] = React.useState("");
 	const user: any = localStorage.getItem("user");
@@ -32,10 +49,24 @@ const Room: React.FC<any> = ({ roomId }) => {
 		dispatch(addMessageItem(res.data.data));
 		setMessageText("");
 	};
+	const history = useHistory();
+	const disconnectUser = async () => {
+		//@ts-ignore
+		dispatch(disconnectParticipant());
+		const responce = await ChatRoomApi.delete(
+			`/participants?userId=${JSON.parse(user).id}`
+		);
+		//@ts-ignore
+		dispatch(disconnectParticipant());
+		history.push("/");
+	};
 	return (
 		<div className='room'>
 			{" "}
 			<Row>
+				<Button variant='danger' className='room__btn' onClick={disconnectUser}>
+					Выйти из комнаты
+				</Button>
 				<Col xs lg={1}></Col>
 				<Col xs lg={10}>
 					<Row>
@@ -44,21 +75,15 @@ const Room: React.FC<any> = ({ roomId }) => {
 								<strong>
 									Участники <span>100</span>
 								</strong>
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
-								<UserInfo name='dark side' />
+								{loadingParticipant ? (
+									<p>loading users</p>
+								) : participants ? (
+									participants.map((part: any) => (
+										<UserInfo name={part.participantName} key={part.id} />
+									))
+								) : (
+									<p>нет пользователей</p>
+								)}
 							</div>
 						</Col>
 						<Col lg={8}>
