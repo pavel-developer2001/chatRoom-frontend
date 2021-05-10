@@ -61,3 +61,28 @@
 	width: 286px;
 	height: 202px;
 }
+.room__users {
+	background-color: ghostwhite;
+	padding: 7px 30px;
+	height: 550px;
+	overflow: auto;
+}
+.room__form {
+	margin-top: 10px;
+}
+.room__form-btn {
+	margin-top: 5px;
+}
+.room__messages {
+	height: 450px;
+	overflow: auto;
+}
+.room__messages-item {
+	background-color: #d0cae3;
+	width: fit-content;
+	padding: 5px 13px;
+	border-radius: 16px;
+	margin: 15px 10px;
+	font-size: 17px;
+	font-weight: 600;
+}

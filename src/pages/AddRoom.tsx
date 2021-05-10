@@ -9,12 +9,16 @@ const AddRoom = () => {
 	const [roomPicture, setRoomPicture] = React.useState<any>(null);
 	const handleChange = (e: any) => {
 		const imageUrl = URL.createObjectURL(e.target.files[0]);
+		const formData = new FormData();
+		formData.append("image", roomPicture);
 		setRoomPicture(imageUrl);
+		// console.log(roomPicture);
 	};
 	const func = () => {
 		const formData = new FormData();
 		formData.append("image", roomPicture);
 	};
+	const user: any = localStorage.getItem("user");
 
 	const [roomName, setRoomName] = React.useState("");
 	const [roomText, setRoomText] = React.useState("");
@@ -30,6 +34,7 @@ const AddRoom = () => {
 			roomName,
 			roomText,
 			roomPicture,
+			userId: JSON.parse(user).id,
 		});
 		dispatch(addNewRoom(responce.data.data));
 		history.push(`/`);
