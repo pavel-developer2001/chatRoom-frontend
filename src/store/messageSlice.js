@@ -12,11 +12,14 @@ const messageSlice = createSlice({
 	name: "message",
 	initialState: {
 		messages: [],
-		users: [],
 		status: null,
 		loading: true,
 	},
-	reducers: {},
+	reducers: {
+		addMessageItem(state, action) {
+			state.messages.data.push(action.payload);
+		},
+	},
 	extraReducers: {
 		[getRoomMessages.pending]: (state, payload) => {
 			state.status = "loading";
@@ -35,4 +38,4 @@ const messageSlice = createSlice({
 });
 
 export default messageSlice.reducer;
-export const {} = messageSlice.actions;
+export const { addMessageItem } = messageSlice.actions;
