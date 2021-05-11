@@ -3,12 +3,13 @@ import Card from "react-bootstrap/Card";
 import { Button, Col, Container, Row } from "react-bootstrap";
 // import imgFont from "../static/image.png";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ChatRoomApi from "../apis/ChatRoomApi";
 import {
 	connectParticipant,
 	getRoomParticipants,
 } from "../store/participantSlice";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
 const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 	const user: any = localStorage.getItem("user");
@@ -45,9 +46,9 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 };
 const RoomList = () => {
 	//@ts-ignore
-	const state = useSelector((state) => state?.room?.rooms?.data);
-	//@ts-ignore
-	const { loading } = useSelector((state) => state?.room);
+	const state = useTypedSelector<any>((state) => state?.room?.rooms?.data);
+
+	const { loading } = useTypedSelector((state) => state?.room);
 	return (
 		<div>
 			<Container>

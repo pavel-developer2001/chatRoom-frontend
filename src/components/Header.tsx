@@ -1,14 +1,15 @@
 import React from "react";
 import { Button, Navbar } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setToken } from "../store/userSlice";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
 const Header = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
-	//@ts-ignore
-	const { token } = useSelector((state) => state.user);
+
+	const { token } = useTypedSelector((state) => state.user);
 	const exitUser = () => {
 		history.push("/login");
 		localStorage.removeItem("token");

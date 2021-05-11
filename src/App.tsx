@@ -13,14 +13,15 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 
 import Header from "./components/Header";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setToken } from "./store/userSlice";
 import { getRooms } from "./store/roomSlice";
+import { useTypedSelector } from "./hooks/useTypedSelector";
 
 const App = () => {
 	const dispatch = useDispatch();
-	//@ts-ignore
-	const { token } = useSelector((state) => state.user);
+
+	const { token } = useTypedSelector((state) => state.user);
 
 	React.useEffect(() => {
 		dispatch(setToken(localStorage.getItem("token")));

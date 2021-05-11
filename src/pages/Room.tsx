@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ChatRoomApi from "../apis/ChatRoomApi";
 import UserInfo from "../components/UserInfo";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 import { addMessageItem, getRoomMessages } from "../store/messageSlice";
 import {
 	disconnectParticipant,
@@ -22,17 +23,16 @@ const Room: React.FC<any> = ({ roomId }) => {
 		dispatch(getRoomParticipants(roomId));
 	}, []);
 
-	const { participants } = useSelector(
-		//@ts-ignore
+	const { participants } = useTypedSelector<any>(
 		(state) => state.participant.participants
 	);
-	//@ts-ignore
-	const loadingParticipant = useSelector((state) => state.participant.loading);
+	const loadingParticipant = useTypedSelector(
+		(state) => state.participant.loading
+	);
 
-	//@ts-ignore
-	const { data } = useSelector((state) => state.message.messages);
-	//@ts-ignore
-	const { loading } = useSelector((state) => state.message);
+	const { data } = useTypedSelector<any>((state) => state.message.messages);
+
+	const { loading } = useTypedSelector((state) => state.message);
 
 	const [messageText, setMessageText] = React.useState("");
 	const user: any = localStorage.getItem("user");
@@ -56,8 +56,7 @@ const Room: React.FC<any> = ({ roomId }) => {
 		const responce = await ChatRoomApi.delete(
 			`/participants?userId=${JSON.parse(user).id}`
 		);
-		//@ts-ignore
-		dispatch(disconnectParticipant());
+
 		history.push("/");
 	};
 	return (
