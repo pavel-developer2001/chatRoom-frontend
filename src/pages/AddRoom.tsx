@@ -8,15 +8,15 @@ import { addNewRoom } from "../store/roomSlice";
 const AddRoom = () => {
 	const [roomPicture, setRoomPicture] = React.useState<any>(null);
 	const handleChange = (e: any) => {
-		const imageUrl = URL.createObjectURL(e.target.files[0]);
-		const formData = new FormData();
-		formData.append("image", roomPicture);
-		setRoomPicture(imageUrl);
-		// console.log(roomPicture);
+		// const imageUrl = URL.createObjectURL(e.target.files[0]);
+		// const formData = new FormData();
+		// formData.append("roomPicture", e.target.files[0]);
+		setRoomPicture(e.target.files[0]);
 	};
-	const func = () => {
+	const func = (e: any) => {
 		const formData = new FormData();
-		formData.append("image", roomPicture);
+		formData.append("roomPicture", e.target.files[0]);
+		setRoomPicture(formData);
 	};
 	const user: any = localStorage.getItem("user");
 
@@ -30,10 +30,19 @@ const AddRoom = () => {
 		if (roomName === "") {
 			return alert("Напишите название комнаты");
 		}
+		console.log(roomPicture);
+		const formData = new FormData();
+		formData.append("roomPicture", roomPicture);
+		//@ts-ignore
+		console.log([...formData.entries()]);
 		const responce = await ChatRoomApi.post("/rooms/create", {
 			roomName,
 			roomText,
-			roomPicture,
+			roomPicture: {
+				//@ts-ignore
+				roomPicture: formData,
+				headers: { "Content-Type": "multipart/form-data" },
+			},
 			userId: JSON.parse(user).id,
 		});
 		dispatch(addNewRoom(responce.data.data));
@@ -77,7 +86,7 @@ const AddRoom = () => {
 								required
 								name='file'
 								onChange={handleChange}
-								onClick={func}
+								// onClick={func}
 								id='validationFormik107'
 								feedbackTooltip
 							/>{" "}
