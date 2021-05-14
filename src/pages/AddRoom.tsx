@@ -7,17 +7,13 @@ import { addNewRoom } from "../store/roomSlice";
 
 const AddRoom = () => {
 	const [roomPicture, setRoomPicture] = React.useState<any>(null);
+	const [testIMG, setTestIMG] = React.useState<any>(null);
 	const handleChange = (e: any) => {
-		// const imageUrl = URL.createObjectURL(e.target.files[0]);
-		// const formData = new FormData();
-		// formData.append("roomPicture", e.target.files[0]);
+		const imageUrl = URL.createObjectURL(e.target.files[0]);
+		setTestIMG(imageUrl);
 		setRoomPicture(e.target.files[0]);
 	};
-	const func = (e: any) => {
-		const formData = new FormData();
-		formData.append("roomPicture", e.target.files[0]);
-		setRoomPicture(formData);
-	};
+
 	const user: any = localStorage.getItem("user");
 
 	const [roomName, setRoomName] = React.useState("");
@@ -47,7 +43,6 @@ const AddRoom = () => {
 		});
 		dispatch(addNewRoom(responce.data.data));
 		history.push(`/`);
-		// console.log(responce.data.data);
 		setRoomName("");
 		setRoomText("");
 		setRoomPicture(null);
@@ -77,7 +72,7 @@ const AddRoom = () => {
 				</Form.Group>
 				<Form.Group className='add-room__file'>
 					{roomPicture ? (
-						<img src={roomPicture} className='add-room__img' />
+						<img src={testIMG} className='add-room__img' />
 					) : (
 						<>
 							<Form.Label>Выбрать фоновую картинку комнаты</Form.Label>

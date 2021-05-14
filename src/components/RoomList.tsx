@@ -9,6 +9,7 @@ import {
 	connectParticipant,
 	getRoomParticipants,
 } from "../store/participantSlice";
+
 import { useTypedSelector } from "../hooks/useTypedSelector";
 
 const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
@@ -27,10 +28,19 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 		dispatch(connectParticipant(responce.data.data));
 		history.push(`/room/${id}`);
 	};
+	// const fontImg = require(`../static/roomImages/${imgFont ? imgFont : null}`);
 	return (
 		<div className='room-list-item'>
 			<Card style={{ width: "18rem" }}>
-				<Card.Img variant='top' src={imgFont} />
+				<Card.Img
+					variant='top'
+					src={
+						require(`../static/roomImages/${imgFont ? imgFont : null}`)
+							? require(`../static/roomImages/${imgFont ? imgFont : null}`)
+									.default
+							: null
+					}
+				/>
 				<Card.Body>
 					<Card.Title>{name}</Card.Title>
 					<Card.Text>{text}</Card.Text>
@@ -63,7 +73,7 @@ const RoomList = () => {
 									<Col xs lg='4' key={room.id}>
 										<RoomListItem
 											name={room.roomName}
-											imgFont={room.roomPicture}
+											imgFont={room?.roomPicture}
 											text={room.roomText}
 											id={room.id}
 										/>
