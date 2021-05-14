@@ -7,17 +7,13 @@ import { addNewRoom } from "../store/roomSlice";
 
 const AddRoom = () => {
 	const [roomPicture, setRoomPicture] = React.useState<any>(null);
+	const [testIMG, setTestIMG] = React.useState<any>(null);
 	const handleChange = (e: any) => {
 		const imageUrl = URL.createObjectURL(e.target.files[0]);
-		const formData = new FormData();
-		formData.append("image", roomPicture);
-		setRoomPicture(imageUrl);
-		// console.log(roomPicture);
+		setTestIMG(imageUrl);
+		setRoomPicture(e.target.files[0]);
 	};
-	const func = () => {
-		const formData = new FormData();
-		formData.append("image", roomPicture);
-	};
+
 	const user: any = localStorage.getItem("user");
 
 	const [roomName, setRoomName] = React.useState("");
@@ -30,15 +26,23 @@ const AddRoom = () => {
 		if (roomName === "") {
 			return alert("Напишите название комнаты");
 		}
-		const responce = await ChatRoomApi.post("/rooms/create", {
-			roomName,
-			roomText,
-			roomPicture,
-			userId: JSON.parse(user).id,
+		console.log(roomPicture);
+		const formData = new FormData();
+		formData.append("roomName", roomName);
+		formData.append("roomText", roomText);
+		formData.append("roomPicture", roomPicture);
+		formData.append("userId", JSON.parse(user).id);
+		//@ts-ignore
+		console.log([...formData.entries()]);
+		const responce = await ChatRoomApi.post("/rooms/create", formData, {
+			headers: {
+				accept: "application/json",
+				"Accept-Language": "en-US,en;q=0.8",
+				"Content-Type": "multipart/form-data",
+			},
 		});
 		dispatch(addNewRoom(responce.data.data));
 		history.push(`/`);
-		// console.log(responce.data.data);
 		setRoomName("");
 		setRoomText("");
 		setRoomPicture(null);
@@ -68,7 +72,7 @@ const AddRoom = () => {
 				</Form.Group>
 				<Form.Group className='add-room__file'>
 					{roomPicture ? (
-						<img src={roomPicture} className='add-room__img' />
+						<img src={testIMG} className='add-room__img' />
 					) : (
 						<>
 							<Form.Label>Выбрать фоновую картинку комнаты</Form.Label>
@@ -77,7 +81,7 @@ const AddRoom = () => {
 								required
 								name='file'
 								onChange={handleChange}
-								onClick={func}
+								// onClick={func}
 								id='validationFormik107'
 								feedbackTooltip
 							/>{" "}
