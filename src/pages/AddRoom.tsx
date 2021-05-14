@@ -32,18 +32,18 @@ const AddRoom = () => {
 		}
 		console.log(roomPicture);
 		const formData = new FormData();
+		formData.append("roomName", roomName);
+		formData.append("roomText", roomText);
 		formData.append("roomPicture", roomPicture);
+		formData.append("userId", JSON.parse(user).id);
 		//@ts-ignore
 		console.log([...formData.entries()]);
-		const responce = await ChatRoomApi.post("/rooms/create", {
-			roomName,
-			roomText,
-			roomPicture: {
-				//@ts-ignore
-				roomPicture: formData,
-				headers: { "Content-Type": "multipart/form-data" },
+		const responce = await ChatRoomApi.post("/rooms/create", formData, {
+			headers: {
+				accept: "application/json",
+				"Accept-Language": "en-US,en;q=0.8",
+				"Content-Type": "multipart/form-data",
 			},
-			userId: JSON.parse(user).id,
 		});
 		dispatch(addNewRoom(responce.data.data));
 		history.push(`/`);
