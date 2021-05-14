@@ -26,7 +26,6 @@ const AddRoom = () => {
 		if (roomName === "") {
 			return alert("Напишите название комнаты");
 		}
-		console.log(roomPicture);
 		const formData = new FormData();
 		formData.append("roomName", roomName);
 		formData.append("roomText", roomText);
