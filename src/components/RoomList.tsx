@@ -12,6 +12,8 @@ import {
 
 import { useTypedSelector } from "../hooks/useTypedSelector";
 
+import socket from "../socket";
+
 const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 	const user: any = localStorage.getItem("user");
 	const dispatch = useDispatch();
@@ -25,6 +27,8 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 		});
 		//@ts-ignore
 		dispatch(getRoomParticipants(id));
+		console.log(socket);
+		socket.emit("ROOM:JOIN", { name, id });
 		dispatch(connectParticipant(responce.data.data));
 		history.push(`/room/${id}`);
 	};
