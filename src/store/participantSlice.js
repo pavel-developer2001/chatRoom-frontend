@@ -23,6 +23,9 @@ const participantSlice = createSlice({
 			state.participants = state.participants.participants.filter(
 				(item) => item.userId !== action.payload
 			);
+			// state.participants = state.participants.filter(
+			// 	(item) => item.userId !== action.payload
+			// );
 		},
 	},
 	extraReducers: {

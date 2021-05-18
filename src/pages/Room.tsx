@@ -32,11 +32,18 @@ const Room: React.FC<any> = ({ roomId }) => {
 		(state) => state.participant.loading
 	);
 	React.useEffect(() => {
-		socket.on("ROOM:SET_USERS", participants);
-	}, []);
-	const { data } = useTypedSelector<any>((state) => state.message.messages);
+		if (!loadingParticipant) {
+			socket.on("ROOM:SET_USERS", participants);
+		}
+	}, [participants]);
 
+	const { data } = useTypedSelector<any>((state) => state.message.messages);
 	const { loading } = useTypedSelector((state) => state.message);
+	React.useEffect(() => {
+		if (!loading) {
+			socket.on("ROOM:SET_USERS", data);
+		}
+	}, [data]);
 
 	const [messageText, setMessageText] = React.useState("");
 	const user: any = localStorage.getItem("user");
@@ -45,6 +52,8 @@ const Room: React.FC<any> = ({ roomId }) => {
 		if (messageText === "") {
 			return alert("Напишите сообщение");
 		}
+		const obj = { roomId, userName: JSON.parse(user).user, text: messageText };
+		socket.emit("ROOM:NEW_MESSAGE", obj);
 		const res = await ChatRoomApi.post(`/messages/add`, {
 			messageText,
 			roomId,
