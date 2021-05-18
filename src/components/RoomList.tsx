@@ -28,7 +28,8 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 		//@ts-ignore
 		dispatch(getRoomParticipants(id));
 		console.log(socket);
-		socket.emit("ROOM:JOIN", { name, id });
+		const obj = { name, id, userName: JSON.parse(user).user };
+		socket.emit("ROOM:JOIN", obj);
 		dispatch(connectParticipant(responce.data.data));
 		history.push(`/room/${id}`);
 	};

@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import ChatRoomApi from "../apis/ChatRoomApi";
 import UserInfo from "../components/UserInfo";
 import { useTypedSelector } from "../hooks/useTypedSelector";
+import socket from "../socket";
 import { addMessageItem, getRoomMessages } from "../store/messageSlice";
 import {
 	disconnectParticipant,
@@ -56,7 +57,8 @@ const Room: React.FC<any> = ({ roomId }) => {
 		const responce = await ChatRoomApi.delete(
 			`/participants?userId=${JSON.parse(user).id}`
 		);
-
+		// const obj = { userName: JSON.parse(user).user };
+		// socket.emit("ROOM:EXIT", obj);
 		history.push("/");
 	};
 	return (
