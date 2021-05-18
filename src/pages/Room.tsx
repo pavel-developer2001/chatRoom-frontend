@@ -27,10 +27,13 @@ const Room: React.FC<any> = ({ roomId }) => {
 	const { participants } = useTypedSelector<any>(
 		(state) => state.participant.participants
 	);
+
 	const loadingParticipant = useTypedSelector(
 		(state) => state.participant.loading
 	);
-
+	React.useEffect(() => {
+		socket.on("ROOM:SET_USERS", participants);
+	}, []);
 	const { data } = useTypedSelector<any>((state) => state.message.messages);
 
 	const { loading } = useTypedSelector((state) => state.message);
@@ -53,7 +56,7 @@ const Room: React.FC<any> = ({ roomId }) => {
 	const history = useHistory();
 	const disconnectUser = async () => {
 		//@ts-ignore
-		dispatch(disconnectParticipant());
+		dispatch(disconnectParticipant(JSON.parse(user).id));
 		const responce = await ChatRoomApi.delete(
 			`/participants?userId=${JSON.parse(user).id}`
 		);

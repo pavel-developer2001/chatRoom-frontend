@@ -20,7 +20,9 @@ const participantSlice = createSlice({
 			state.participants.push(action.payload);
 		},
 		disconnectParticipant(state, action) {
-			state.participants = [];
+			state.participants = state.participants.participants.filter(
+				(item) => item.userId !== action.payload
+			);
 		},
 	},
 	extraReducers: {
@@ -41,7 +43,5 @@ const participantSlice = createSlice({
 });
 
 export default participantSlice.reducer;
-export const {
-	connectParticipant,
-	disconnectParticipant,
-} = participantSlice.actions;
+export const { connectParticipant, disconnectParticipant } =
+	participantSlice.actions;
