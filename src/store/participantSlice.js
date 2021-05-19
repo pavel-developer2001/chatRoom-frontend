@@ -16,6 +16,9 @@ const participantSlice = createSlice({
 		loading: true,
 	},
 	reducers: {
+		getAllParticipants(state, action) {
+			state.participants = action.payload.participants;
+		},
 		connectParticipant(state, action) {
 			state.participants.push(action.payload);
 		},
@@ -46,5 +49,5 @@ const participantSlice = createSlice({
 });
 
 export default participantSlice.reducer;
-export const { connectParticipant, disconnectParticipant } =
+export const { connectParticipant, disconnectParticipant, getAllParticipant } =
 	participantSlice.actions;

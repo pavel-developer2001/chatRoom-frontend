@@ -31,6 +31,8 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 		const obj = { name, id, userName: JSON.parse(user).id };
 		socket.emit("ROOM:JOIN", obj);
 		// dispatch(connectParticipant(responce.data.data));
+		//@ts-ignore
+		// socket.on("ROOM:SET_USERS", getRoomParticipants);
 		history.push(`/room/${id}`);
 	};
 	// const fontImg = require(`../static/roomImages/${imgFont ? imgFont : null}`);

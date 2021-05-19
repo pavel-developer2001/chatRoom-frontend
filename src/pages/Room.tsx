@@ -10,6 +10,7 @@ import { addMessageItem, getRoomMessages } from "../store/messageSlice";
 import {
 	disconnectParticipant,
 	getRoomParticipants,
+	getAllParticipant,
 } from "../store/participantSlice";
 
 const Room: React.FC<any> = ({ roomId }) => {
@@ -27,23 +28,21 @@ const Room: React.FC<any> = ({ roomId }) => {
 	const { participants } = useTypedSelector<any>(
 		(state) => state.participant.participants
 	);
-
 	const loadingParticipant = useTypedSelector(
 		(state) => state.participant.loading
 	);
-	React.useEffect(() => {
-		if (!loadingParticipant) {
-			socket.on("ROOM:SET_USERS", participants);
-		}
-	}, [participants]);
-
+	// React.useEffect(() => {
+	// 	socket.on("ROOM:SET_USERS", getAllParticipant);
+	// }, []);
+	// console.log(participants);
 	const { data } = useTypedSelector<any>((state) => state.message.messages);
 	const { loading } = useTypedSelector((state) => state.message);
-	React.useEffect(() => {
-		if (!loading) {
-			socket.on("ROOM:SET_USERS", data);
-		}
-	}, [data]);
+	// React.useEffect(() => {
+	// 	if (!loading) {
+	// 		//@ts-ignore
+	// 		socket.on("ROOM:NEW_MESSAGE", getAllParticipant);
+	// 	}
+	// }, [data]);
 
 	const [messageText, setMessageText] = React.useState("");
 	const user: any = localStorage.getItem("user");
