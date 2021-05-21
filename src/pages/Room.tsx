@@ -5,34 +5,34 @@ import { useHistory } from "react-router-dom";
 import ChatRoomApi from "../apis/ChatRoomApi";
 import UserInfo from "../components/UserInfo";
 import { useTypedSelector } from "../hooks/useTypedSelector";
-import { addMessageItem, getRoomMessages } from "../store/messageSlice";
+import socket from "../socket";
+import { addMessageItem, getAllMessages } from "../store/messageSlice";
 import {
 	disconnectParticipant,
-	getRoomParticipants,
+	getAllParticipants,
 } from "../store/participantSlice";
 
 const Room: React.FC<any> = ({ roomId }) => {
 	const dispatch = useDispatch();
-	React.useEffect(() => {
-		//@ts-ignore
-		dispatch(getRoomMessages(roomId));
-	}, []);
 
-	React.useEffect(() => {
-		//@ts-ignore
-		dispatch(getRoomParticipants(roomId));
-	}, []);
-
-	const { participants } = useTypedSelector<any>(
-		(state) => state.participant.participants
-	);
+	const { participants } = useTypedSelector<any>((state) => state.participant);
 	const loadingParticipant = useTypedSelector(
 		(state) => state.participant.loading
 	);
 
-	const { data } = useTypedSelector<any>((state) => state.message.messages);
+	React.useEffect(() => {
+		socket.on("ROOM:SET_USERS", (users: any) => {
+			dispatch(getAllParticipants(users));
+		});
+	}, []);
 
+	const data = useTypedSelector<any>((state) => state.message.messages);
 	const { loading } = useTypedSelector((state) => state.message);
+	React.useEffect(() => {
+		socket.on("ROOM:NEW_MESSAGE", (allMessageRoom: any) => {
+			dispatch(getAllMessages(allMessageRoom));
+		});
+	}, []);
 
 	const [messageText, setMessageText] = React.useState("");
 	const user: any = localStorage.getItem("user");
@@ -41,6 +41,8 @@ const Room: React.FC<any> = ({ roomId }) => {
 		if (messageText === "") {
 			return alert("Напишите сообщение");
 		}
+		const obj = { roomId, userName: JSON.parse(user).user, text: messageText };
+		socket.emit("ROOM:NEW_MESSAGE", obj);
 		const res = await ChatRoomApi.post(`/messages/add`, {
 			messageText,
 			roomId,
@@ -52,11 +54,10 @@ const Room: React.FC<any> = ({ roomId }) => {
 	const history = useHistory();
 	const disconnectUser = async () => {
 		//@ts-ignore
-		dispatch(disconnectParticipant());
+		dispatch(disconnectParticipant(JSON.parse(user).id));
 		const responce = await ChatRoomApi.delete(
 			`/participants?userId=${JSON.parse(user).id}`
 		);
-
 		history.push("/");
 	};
 	return (
@@ -72,7 +73,7 @@ const Room: React.FC<any> = ({ roomId }) => {
 						<Col lg={4}>
 							<div className='room__users'>
 								<strong>
-									Участники <span>100</span>
+									Участники <span>{participants.length || 0}</span>
 								</strong>
 								{loadingParticipant ? (
 									<p>loading users</p>

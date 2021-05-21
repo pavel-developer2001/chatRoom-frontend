@@ -16,11 +16,20 @@ const participantSlice = createSlice({
 		loading: true,
 	},
 	reducers: {
+		getAllParticipants(state, action) {
+			state.participants = action.payload;
+			state.loading = false;
+		},
 		connectParticipant(state, action) {
 			state.participants.push(action.payload);
 		},
 		disconnectParticipant(state, action) {
-			state.participants = [];
+			// state.participants = state.participants.participants.filter(
+			// 	(item) => item.userId !== action.payload
+			// );
+			state.participants = state.participants.filter(
+				(item) => item.userId !== action.payload
+			);
 		},
 	},
 	extraReducers: {
@@ -41,7 +50,5 @@ const participantSlice = createSlice({
 });
 
 export default participantSlice.reducer;
-export const {
-	connectParticipant,
-	disconnectParticipant,
-} = participantSlice.actions;
+export const { connectParticipant, disconnectParticipant, getAllParticipants } =
+	participantSlice.actions;
