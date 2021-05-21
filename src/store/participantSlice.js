@@ -17,8 +17,8 @@ const participantSlice = createSlice({
 	},
 	reducers: {
 		getAllParticipants(state, action) {
-			console.log(action.payload);
 			state.participants = action.payload;
+			state.loading = false;
 		},
 		connectParticipant(state, action) {
 			state.participants.push(action.payload);

@@ -6,45 +6,33 @@ import ChatRoomApi from "../apis/ChatRoomApi";
 import UserInfo from "../components/UserInfo";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import socket from "../socket";
-import { addMessageItem, getRoomMessages } from "../store/messageSlice";
+import { addMessageItem, getAllMessages } from "../store/messageSlice";
 import {
 	disconnectParticipant,
-	getRoomParticipants,
 	getAllParticipants,
 } from "../store/participantSlice";
 
 const Room: React.FC<any> = ({ roomId }) => {
 	const dispatch = useDispatch();
-	// React.useEffect(() => {
-	// 	//@ts-ignore
-	// 	dispatch(getRoomMessages(roomId));
-	// }, []);
 
-	// React.useEffect(() => {
-	// 	//@ts-ignore
-	// 	dispatch(getRoomParticipants(roomId));
-	// }, []);
-	debugger;
 	const { participants } = useTypedSelector<any>((state) => state.participant);
 	const loadingParticipant = useTypedSelector(
 		(state) => state.participant.loading
 	);
+
 	React.useEffect(() => {
-		socket.on("ROOM:SET_USERS", (part: any) => {
-			console.log(part);
-			getAllParticipants(part);
+		socket.on("ROOM:SET_USERS", (users: any) => {
+			dispatch(getAllParticipants(users));
 		});
 	}, []);
-	// console.log(participants);
 
-	const { data } = useTypedSelector<any>((state) => state.message.messages);
+	const data = useTypedSelector<any>((state) => state.message.messages);
 	const { loading } = useTypedSelector((state) => state.message);
-	// React.useEffect(() => {
-	// 	if (!loading) {
-	// 		//@ts-ignore
-	// 		socket.on("ROOM:NEW_MESSAGE", getAllParticipant);
-	// 	}
-	// }, [data]);
+	React.useEffect(() => {
+		socket.on("ROOM:NEW_MESSAGE", (allMessageRoom: any) => {
+			dispatch(getAllMessages(allMessageRoom));
+		});
+	}, []);
 
 	const [messageText, setMessageText] = React.useState("");
 	const user: any = localStorage.getItem("user");
