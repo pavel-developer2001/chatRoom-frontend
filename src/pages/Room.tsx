@@ -58,8 +58,6 @@ const Room: React.FC<any> = ({ roomId }) => {
 		const responce = await ChatRoomApi.delete(
 			`/participants?userId=${JSON.parse(user).id}`
 		);
-		// const obj = { userName: JSON.parse(user).user };
-		// socket.emit("ROOM:EXIT", obj);
 		history.push("/");
 	};
 	return (
@@ -75,7 +73,7 @@ const Room: React.FC<any> = ({ roomId }) => {
 						<Col lg={4}>
 							<div className='room__users'>
 								<strong>
-									Участники <span>100</span>
+									Участники <span>{participants.length || 0}</span>
 								</strong>
 								{loadingParticipant ? (
 									<p>loading users</p>

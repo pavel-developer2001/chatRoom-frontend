@@ -19,9 +19,7 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 	const user: any = localStorage.getItem("user");
 	const dispatch = useDispatch();
 	const history = useHistory();
-	// React.useEffect(() => {
-	// 	socket.on("ROOM:SET_USERS", getAllParticipant);
-	// }, []);
+
 	const addParticipant = async (e: any) => {
 		e.preventDefault();
 		const responce = await ChatRoomApi.post("/participants/connect", {
@@ -29,14 +27,10 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 			roomId: id,
 			userId: JSON.parse(user).id,
 		});
-		//@ts-ignore
-		// dispatch(getRoomParticipants(id));
-		// console.log(socket);
+
 		const obj = { name, id, userName: JSON.parse(user).id };
 		socket.emit("ROOM:JOIN", obj);
-		// dispatch(connectParticipant(responce.data.data));
-		//@ts-ignore
-		// socket.on("ROOM:SET_USERS", getRoomParticipants);
+
 		history.push(`/room/${id}`);
 	};
 	// const fontImg = require(`../static/roomImages/${imgFont ? imgFont : null}`);
