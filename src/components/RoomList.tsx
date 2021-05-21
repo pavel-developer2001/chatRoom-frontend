@@ -8,6 +8,7 @@ import ChatRoomApi from "../apis/ChatRoomApi";
 import {
 	connectParticipant,
 	getRoomParticipants,
+	getAllParticipants,
 } from "../store/participantSlice";
 
 import { useTypedSelector } from "../hooks/useTypedSelector";
@@ -18,6 +19,9 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 	const user: any = localStorage.getItem("user");
 	const dispatch = useDispatch();
 	const history = useHistory();
+	// React.useEffect(() => {
+	// 	socket.on("ROOM:SET_USERS", getAllParticipant);
+	// }, []);
 	const addParticipant = async (e: any) => {
 		e.preventDefault();
 		const responce = await ChatRoomApi.post("/participants/connect", {

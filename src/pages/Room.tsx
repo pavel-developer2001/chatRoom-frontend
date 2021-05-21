@@ -10,31 +10,33 @@ import { addMessageItem, getRoomMessages } from "../store/messageSlice";
 import {
 	disconnectParticipant,
 	getRoomParticipants,
-	getAllParticipant,
+	getAllParticipants,
 } from "../store/participantSlice";
 
 const Room: React.FC<any> = ({ roomId }) => {
 	const dispatch = useDispatch();
-	React.useEffect(() => {
-		//@ts-ignore
-		dispatch(getRoomMessages(roomId));
-	}, []);
+	// React.useEffect(() => {
+	// 	//@ts-ignore
+	// 	dispatch(getRoomMessages(roomId));
+	// }, []);
 
-	React.useEffect(() => {
-		//@ts-ignore
-		dispatch(getRoomParticipants(roomId));
-	}, []);
-
-	const { participants } = useTypedSelector<any>(
-		(state) => state.participant.participants
-	);
+	// React.useEffect(() => {
+	// 	//@ts-ignore
+	// 	dispatch(getRoomParticipants(roomId));
+	// }, []);
+	debugger;
+	const { participants } = useTypedSelector<any>((state) => state.participant);
 	const loadingParticipant = useTypedSelector(
 		(state) => state.participant.loading
 	);
-	// React.useEffect(() => {
-	// 	socket.on("ROOM:SET_USERS", getAllParticipant);
-	// }, []);
+	React.useEffect(() => {
+		socket.on("ROOM:SET_USERS", (part: any) => {
+			console.log(part);
+			getAllParticipants(part);
+		});
+	}, []);
 	// console.log(participants);
+
 	const { data } = useTypedSelector<any>((state) => state.message.messages);
 	const { loading } = useTypedSelector((state) => state.message);
 	// React.useEffect(() => {
