@@ -10,6 +10,7 @@ import {
 	getRoomParticipants,
 	getAllParticipants,
 } from "../store/participantSlice";
+import errorImg from "../static/404-boobs-not-found_o_353209.jpg";
 
 import { useTypedSelector } from "../hooks/useTypedSelector";
 
@@ -33,19 +34,13 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
 
 		history.push(`/room/${id}`);
 	};
-	// const fontImg = require(`../static/roomImages/${imgFont ? imgFont : null}`);
+	const checkImg = imgFont ? imgFont : errorImg;
+	const fontImg = require(`../static/roomImages/${checkImg}`);
+	const checkRepeatImg = fontImg ? fontImg.default : errorImg;
 	return (
 		<div className='room-list-item'>
 			<Card style={{ width: "18rem" }}>
-				<Card.Img
-					variant='top'
-					src={
-						require(`../static/roomImages/${imgFont ? imgFont : null}`)
-							? require(`../static/roomImages/${imgFont ? imgFont : null}`)
-									.default
-							: null
-					}
-				/>
+				<Card.Img variant='top' src={checkRepeatImg} />
 				<Card.Body>
 					<Card.Title>{name}</Card.Title>
 					<Card.Text>{text}</Card.Text>

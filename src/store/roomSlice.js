@@ -6,7 +6,9 @@ export const getRooms = createAsyncThunk("/getRooms", async () => {
 const roomSlice = createSlice({
 	name: "room",
 	initialState: {
-		rooms: [],
+		rooms: {
+			data: [],
+		},
 		status: null,
 		loading: true,
 	},

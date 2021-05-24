@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ChatRoomApi from "../apis/ChatRoomApi";
+import Header from "../components/Header";
 import { addNewRoom } from "../store/roomSlice";
 
 const AddRoom = () => {
@@ -31,8 +32,7 @@ const AddRoom = () => {
 		formData.append("roomText", roomText);
 		formData.append("roomPicture", roomPicture);
 		formData.append("userId", JSON.parse(user).id);
-		//@ts-ignore
-		console.log([...formData.entries()]);
+
 		const responce = await ChatRoomApi.post("/rooms/create", formData, {
 			headers: {
 				accept: "application/json",
@@ -47,50 +47,53 @@ const AddRoom = () => {
 		setRoomPicture(null);
 	};
 	return (
-		<div className='add-room'>
-			<h4>Создать комнату</h4>
-			<Form>
-				<Form.Group controlId='formBasicEmail'>
-					<Form.Label>Название комнаты</Form.Label>
-					<Form.Control
-						type='name'
-						placeholder='Введите название комнаты'
-						value={roomName}
-						onChange={(e) => setRoomName(e.target.value)}
-					/>
-				</Form.Group>
-				<Form.Group controlId='exampleForm.ControlTextarea1'>
-					<Form.Label>Описание комнаты</Form.Label>
-					<Form.Control
-						as='textarea'
-						className='add-room__textarea'
-						rows={3}
-						value={roomText}
-						onChange={(e) => setRoomText(e.target.value)}
-					/>
-				</Form.Group>
-				<Form.Group className='add-room__file'>
-					{roomPicture ? (
-						<img src={testIMG} className='add-room__img' />
-					) : (
-						<>
-							<Form.Label>Выбрать фоновую картинку комнаты</Form.Label>
-							<Form.File
-								className='position-relative'
-								required
-								name='file'
-								onChange={handleChange}
-								// onClick={func}
-								id='validationFormik107'
-								feedbackTooltip
-							/>{" "}
-						</>
-					)}
-				</Form.Group>
-				<Button variant='primary' type='submit' onClick={addRoom}>
-					Создать
-				</Button>
-			</Form>
+		<div>
+			<Header />
+			<div className='add-room'>
+				<h4>Создать комнату</h4>
+				<Form>
+					<Form.Group controlId='formBasicEmail'>
+						<Form.Label>Название комнаты</Form.Label>
+						<Form.Control
+							type='name'
+							placeholder='Введите название комнаты'
+							value={roomName}
+							onChange={(e) => setRoomName(e.target.value)}
+						/>
+					</Form.Group>
+					<Form.Group controlId='exampleForm.ControlTextarea1'>
+						<Form.Label>Описание комнаты</Form.Label>
+						<Form.Control
+							as='textarea'
+							className='add-room__textarea'
+							rows={3}
+							value={roomText}
+							onChange={(e) => setRoomText(e.target.value)}
+						/>
+					</Form.Group>
+					<Form.Group className='add-room__file'>
+						{roomPicture ? (
+							<img src={testIMG} className='add-room__img' />
+						) : (
+							<>
+								<Form.Label>Выбрать фоновую картинку комнаты</Form.Label>
+								<Form.File
+									className='position-relative'
+									required
+									name='file'
+									onChange={handleChange}
+									// onClick={func}
+									id='validationFormik107'
+									feedbackTooltip
+								/>{" "}
+							</>
+						)}
+					</Form.Group>
+					<Button variant='primary' type='submit' onClick={addRoom}>
+						Создать
+					</Button>
+				</Form>
+			</div>
 		</div>
 	);
 };

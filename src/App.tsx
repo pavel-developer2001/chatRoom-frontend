@@ -12,7 +12,6 @@ import AddRoom from "./pages/AddRoom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
-import Header from "./components/Header";
 import { useDispatch } from "react-redux";
 import { setToken } from "./store/userSlice";
 import { getRooms } from "./store/roomSlice";
@@ -32,7 +31,6 @@ const App = () => {
 	return (
 		<div>
 			<Router>
-				<Header />
 				{token ? (
 					<>
 						<Switch>
