@@ -1,6 +1,6 @@
 # ChatRoom - это веб-приложение, где можно создать комнаты для общения.
 
-## Написан на React js, Redux-Toolkit, Socket.IO-Client, частично на TypeScript.
+## Написан на React js, Redux-Toolkit, Socket.IO-Client, React-Bootstrap, частично написан на TypeScript.
 
 ### Версия 0.1.0
 
