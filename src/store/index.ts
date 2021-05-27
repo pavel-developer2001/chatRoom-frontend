@@ -5,13 +5,13 @@ import messageSlice from "./messageSlice";
 import participantSlice from "./participantSlice";
 
 const rootReducer = combineReducers({
-	user: userSlice,
-	room: roomSlice,
-	message: messageSlice,
-	participant: participantSlice,
+  user: userSlice,
+  room: roomSlice,
+  message: messageSlice,
+  participant: participantSlice,
 });
 
 export const store = configureStore({
-	reducer: rootReducer,
+  reducer: rootReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;

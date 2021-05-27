@@ -1,91 +1,91 @@
 * {
-	padding: 0px;
-	margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 .header__nav {
-	justify-content: space-between !important;
-	padding: 14px 20px !important;
+  justify-content: space-between !important;
+  padding: 14px 20px !important;
 }
 .header__link {
-	text-transform: uppercase;
-	text-decoration: none;
+  text-transform: uppercase;
+  text-decoration: none;
 }
 .login {
-	width: 20%;
-	margin: 0 auto;
-	margin-top: 30px;
-	text-align: center;
+  width: 20%;
+  margin: 0 auto;
+  margin-top: 30px;
+  text-align: center;
 }
 .login__form {
-	margin: 10px 0px;
+  margin: 10px 0px;
 }
 .login__link {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .room-list-item {
-	margin-top: 30px;
+  margin-top: 30px;
 }
 .room {
-	margin-top: 30px;
+  margin-top: 30px;
 }
 .room-avatar {
-	width: 60px;
-	height: 60px;
-	border-radius: 50%;
-	object-fit: cover;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .room-username {
-	margin-left: 8px;
-	font-size: 20px;
+  margin-left: 8px;
+  font-size: 20px;
 }
 .user-info {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 .home__info {
-	margin: 13px auto;
-	width: max-content;
+  margin: 13px auto;
+  width: max-content;
 }
 .add-room {
-	width: 50%;
-	margin: 0 auto;
-	margin-top: 30px;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 .add-room__textarea {
-	resize: none;
+  resize: none;
 }
 .add-room__file {
-	margin: 15px 0;
+  margin: 15px 0;
 }
 .add-room__img {
-	width: 286px;
-	height: 202px;
+  width: 286px;
+  height: 202px;
 }
 .room__users {
-	background-color: ghostwhite;
-	padding: 7px 30px;
-	height: 550px;
-	overflow: auto;
+  background-color: ghostwhite;
+  padding: 7px 30px;
+  height: 550px;
+  overflow: auto;
 }
 .room__form {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 .room__form-btn {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 .room__messages {
-	height: 450px;
-	overflow: auto;
+  height: 450px;
+  overflow: auto;
 }
 .room__messages-item {
-	background-color: #d0cae3;
-	width: fit-content;
-	padding: 5px 13px;
-	border-radius: 16px;
-	margin: 15px 10px;
-	font-size: 17px;
-	font-weight: 600;
+  background-color: #d0cae3;
+  width: fit-content;
+  padding: 5px 13px;
+  border-radius: 16px;
+  margin: 15px 10px;
+  font-size: 17px;
+  font-weight: 600;
 }
 .room__btn {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
