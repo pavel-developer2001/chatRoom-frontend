@@ -26,7 +26,7 @@ const RoomListItem: React.FC<any> = ({ imgFont, name, text, id }) => {
   };
   const checkImg = imgFont ? imgFont : errorImg;
   const fontImg = require(`../static/roomImages/${checkImg}`);
-  const checkRepeatImg = fontImg ? fontImg.default : errorImg;
+  const checkRepeatImg = !fontImg ? errorImg : fontImg.default;
   return (
     <div className='room-list-item'>
       <Card style={{ width: "18rem" }}>
